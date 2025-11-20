@@ -1,0 +1,32 @@
+{
+   "01_dataset" : {
+      "1_identifier" : "2022-2-16-137",
+      "2_name" : "한국어 대학 강의 데이터",
+      "3_src_path" : "source/hum/huma/C00257/U00129.wav",
+      "4_label_path" : "labels/hum/huma/C00257/U00129.json",
+      "5_category" : "hum",
+      "6_type" : "음성",
+      "7_copyright" : "Y",
+      "8_src_length" : 1525,
+      "9_speech_length" : "23.5889375"
+   },
+   "02_srcinfo" : {
+      "1_id" : "C00257"
+   },
+   "03_lectureinfo" : {
+      "1_city" : "전라도",
+      "2_university_type" : "4년제",
+      "3_major_category" : "huma",
+      "5_collection_type" : "화상회의 온라인강의"
+   },
+   "05_speakerinfo" : {
+      "1_id" : "S00279",
+      "2_gender" : "M",
+      "3_age" : "50대이상",
+      "4_role" : "강사",
+      "5_dialect" : "표준어"
+   },
+   "06_transcription" : {
+      "1_text" : "색깔이 약간 다르게 나타나 있는데 방구 끼듯이 스컹크가 냄새를 풍기게 되면 주위가 이 스컹크의 냄새로 인해 냄새가 퍼져 나간다고 하는 것 냄새가 고농도의 냄새가 저농도 부위로 확산돼 나가는 부분을 생각해 줄 수가 있고요."
+   }
+}

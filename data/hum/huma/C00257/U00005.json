@@ -1,0 +1,32 @@
+{
+   "01_dataset" : {
+      "1_identifier" : "2022-2-16-137",
+      "2_name" : "한국어 대학 강의 데이터",
+      "3_src_path" : "source/hum/huma/C00257/U00005.wav",
+      "4_label_path" : "labels/hum/huma/C00257/U00005.json",
+      "5_category" : "hum",
+      "6_type" : "음성",
+      "7_copyright" : "Y",
+      "8_src_length" : 1525,
+      "9_speech_length" : "34.6249375"
+   },
+   "02_srcinfo" : {
+      "1_id" : "C00257"
+   },
+   "03_lectureinfo" : {
+      "1_city" : "전라도",
+      "2_university_type" : "4년제",
+      "3_major_category" : "huma",
+      "5_collection_type" : "화상회의 온라인강의"
+   },
+   "05_speakerinfo" : {
+      "1_id" : "S00279",
+      "2_gender" : "M",
+      "3_age" : "50대이상",
+      "4_role" : "강사",
+      "5_dialect" : "표준어"
+   },
+   "06_transcription" : {
+      "1_text" : "이러한 어 방법에는 신 경계(ㅘ)/(와)내분비계로 구분하고 있는데 내부나 외부의 환경 변화에 대해서내분비계를 보게 되면 내분비 조절 센터에서 원심성 자극을 하게 되고 어디에 대해서 효과에 대해서 원심성 자극을 하게 되고 효과기가 적절한 반응을 일으켜서 내외적 환경 변화에 상응하는 조치를 취한다고 보시면 되고요."
+   }
+}

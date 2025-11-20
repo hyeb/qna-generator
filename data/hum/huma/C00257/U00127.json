@@ -1,0 +1,32 @@
+{
+   "01_dataset" : {
+      "1_identifier" : "2022-2-16-137",
+      "2_name" : "한국어 대학 강의 데이터",
+      "3_src_path" : "source/hum/huma/C00257/U00127.wav",
+      "4_label_path" : "labels/hum/huma/C00257/U00127.json",
+      "5_category" : "hum",
+      "6_type" : "음성",
+      "7_copyright" : "Y",
+      "8_src_length" : 1525,
+      "9_speech_length" : "27.07025"
+   },
+   "02_srcinfo" : {
+      "1_id" : "C00257"
+   },
+   "03_lectureinfo" : {
+      "1_city" : "전라도",
+      "2_university_type" : "4년제",
+      "3_major_category" : "huma",
+      "5_collection_type" : "화상회의 온라인강의"
+   },
+   "05_speakerinfo" : {
+      "1_id" : "S00279",
+      "2_gender" : "M",
+      "3_age" : "50대이상",
+      "4_role" : "강사",
+      "5_dialect" : "표준어"
+   },
+   "06_transcription" : {
+      "1_text" : "그래서 그 이 정재 퇴비 알약을 갖다가 유리컵에 이렇게 담그게 되면 서서히 녹아서 어 시간이 좀 지나가게 되면 이와 같이 골고루 퍼진다든지 물 전체의 이 알약의 성분이 높고 전체적으로 어 이 약의 성분이 골고루 퍼지게 되고요."
+   }
+}

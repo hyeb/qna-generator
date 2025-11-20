@@ -1,0 +1,32 @@
+{
+   "01_dataset" : {
+      "1_identifier" : "2022-2-16-137",
+      "2_name" : "한국어 대학 강의 데이터",
+      "3_src_path" : "source/hum/huma/C00257/U00001.wav",
+      "4_label_path" : "labels/hum/huma/C00257/U00001.json",
+      "5_category" : "hum",
+      "6_type" : "음성",
+      "7_copyright" : "Y",
+      "8_src_length" : 1525,
+      "9_speech_length" : "7.6965625"
+   },
+   "02_srcinfo" : {
+      "1_id" : "C00257"
+   },
+   "03_lectureinfo" : {
+      "1_city" : "전라도",
+      "2_university_type" : "4년제",
+      "3_major_category" : "huma",
+      "5_collection_type" : "화상회의 온라인강의"
+   },
+   "05_speakerinfo" : {
+      "1_id" : "S00279",
+      "2_gender" : "M",
+      "3_age" : "50대이상",
+      "4_role" : "강사",
+      "5_dialect" : "표준어"
+   },
+   "06_transcription" : {
+      "1_text" : "지난 시간에 항상성 유지에서 항상성의 개념까지 알아 봤습니다."
+   }
+}

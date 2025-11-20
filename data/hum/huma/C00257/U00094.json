@@ -1,0 +1,32 @@
+{
+   "01_dataset" : {
+      "1_identifier" : "2022-2-16-137",
+      "2_name" : "한국어 대학 강의 데이터",
+      "3_src_path" : "source/hum/huma/C00257/U00094.wav",
+      "4_label_path" : "labels/hum/huma/C00257/U00094.json",
+      "5_category" : "hum",
+      "6_type" : "음성",
+      "7_copyright" : "Y",
+      "8_src_length" : 1525,
+      "9_speech_length" : "24.8069375"
+   },
+   "02_srcinfo" : {
+      "1_id" : "C00257"
+   },
+   "03_lectureinfo" : {
+      "1_city" : "전라도",
+      "2_university_type" : "4년제",
+      "3_major_category" : "huma",
+      "5_collection_type" : "화상회의 온라인강의"
+   },
+   "05_speakerinfo" : {
+      "1_id" : "S00279",
+      "2_gender" : "M",
+      "3_age" : "50대이상",
+      "4_role" : "강사",
+      "5_dialect" : "표준어"
+   },
+   "06_transcription" : {
+      "1_text" : "단지 중력에 의해서 수동으로 아래로 경농도 경사가 높은 곳에서 농도가 낮은 곳으로 이와 같이 이동하든 하는 것 그래서 공이 그걸 바닥으로 이렇게 굴러 낼 것을 예상할 수 있듯이 공이 이렇게 내려오는 것 이런 것 들은 테시브 그 다음에 언덕에서 (heel)/(힐)에서 (down)/(다운) 다운 힐을 얘기하구요."
+   }
+}
