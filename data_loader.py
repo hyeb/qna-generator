@@ -1,27 +1,36 @@
+import os
+import json
 
-FILE_PATH = 'file path'
 
-def load_aihub_data(file_path: str):
-    """
-    file path의 파일 로드 후 해당 aihub의 데이터 구조 내 'original_text' 키의 값을 Context로 활용 예정
+def get_text_contents(folder_path):
+    text_list = []
 
-    args: 로드할 파일 경로
-    returns: 추출된 original_text가 들어간 리스트
-    """
-
-    try:
-        with open(FILE_PATH, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-
-    except FileNotFoundError:
-        print(f"파일 {FILE_PATH}을 찾을 수 없습니다. 경로를 다시 확인해주세요")
-        return []
+    if not os.path.isdir(folder_path):
+        print(f"{folder_path}를 찾을 수 없음")
+        return
     
+    json_list = os.listdir(folder_path)
 
-    try:
-        section_info = data['training_data_info']['section_info']
-        contents = [section_info['original_text'] for section in section_info]
-        return contents
-    except:
-        print(f"Contetns를 찾을 수 없습니다")
-        return []
+    for j_file in json_list:
+        if j_file.endswith('.json'):
+            json_path = os.path.join(folder_path, j_file)
+
+            try:
+                with open(json_path, 'r', encoding='utf-8') as f:
+                    text = json.load(f)
+
+                text_content = text.get("06_transcription", {}).get("1_text")
+
+                if text_content:
+                    text_list.append(text_content)
+                else:
+                    print(f"{j_file}에서 '1_text'를 찾을 수 없음")
+            
+            except json.JSONDecodeError:
+                print(f"{j_file}은 유효한 json 형식이 아님")
+            except Exception as e:
+                print(f"{j_file} 처리 중 오류 발생: {e}")
+    
+    comb_text = " ".join(text_list)
+    
+    return comb_text
