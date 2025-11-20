@@ -8,7 +8,7 @@ from typing import List
 from pydantic import BaseModel, Field, ConfigDict
 
 
-
+## get gemini api
 load_dotenv()
 GEMINI_API_KEY=os.environ.get("GEMINI_API_KEY")
 
@@ -16,7 +16,7 @@ if not GEMINI_API_KEY:
     print('gemini api not available')
 
 
-
+## load lecture context
 FOLDER_PATH='data/hum/huma/C00257'
 
 CONTEXT = data_loader.get_text_contents(FOLDER_PATH)
@@ -43,8 +43,10 @@ CONTEXT = data_loader.get_text_contents(FOLDER_PATH)
 # 아폴로-1은 단순히 문장을 만들어내는 기존 방식과 달리, ‘폐쇄형 추론 루프(closed reasoning loop)’라는 구조로 작동한다.
 # """
 
-client = genai.Client(api_key=GEMINI_API_KEY)
 
+
+## Question Generation
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 prompt = f""" 
 당신은 기말고사를 준비하고 있는 대학생입니다. 아래 'CONTENTS'를 읽고 제대로 학습했는지 확인하기 위한 질문을 만들어야합니다.
@@ -65,8 +67,8 @@ response = client.models.generate_content(
 )
 
 response_text = response.text
-print(response_text)
 
+### 모델응답을 pydantic으로 파싱하여 json 구조로 변환
 class DifficultyQuestions(BaseModel):
     model_config = ConfigDict(
         populate_by_name=True # python에서 low/mid/high 쓰기 위함
@@ -85,3 +87,8 @@ diff_df = pd.DataFrame(diff_questions)
 diff_df.to_csv("questions_with_difficulty_3.csv", index=False, encoding="utf-8-sig")
 
 print('Question Generation Success')
+
+
+## Question Evaluation
+
+
