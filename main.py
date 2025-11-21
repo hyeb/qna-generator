@@ -1,6 +1,7 @@
 import os
 import data_loader
 import pandas as pd
+import json
 
 from google import genai
 from dotenv import load_dotenv
@@ -90,5 +91,147 @@ print('Question Generation Success')
 
 
 ## Question Evaluation
+JSON_STRUCT = """
+```json
+{
+  "context_relevance": {
+    "score": 0 or 1,
+    "question_based_on_context": true/false
+  },
+  "question_importance": {
+    "score": 0 or 1,
+    "core_concept_related": true/false,
+    "not_trivial_detail": true/false,
+    "misconception_exposure": true/false
+  },
+  "difficulty_consistency": {
+    "score": 0 or 1,
+    "model_difficulty": "low" | "mid" | "high",
+    "match": true/false
+  },
+  "question_clarity": {
+    "score": 0 or 1,
+    "grammatically_clear": true/false,
+    "intent_clear": true/false
+  },
+}
+""" # 출력 형태 고정
 
 
+EVAL_PROMPT = f"""
+당신은 대학 가의 기반 학습용 'question'을 평가하는 전문가입니다.
+주어진 context(강의 내용)와 question, model_difficulty(질문 난이도)를 보고 아래 4가지 지표에 따라 질문을 평가하세요.
+
+각 지표는 0 또는 1의 바이너리로 평가합니다.
+
+[평가지표 1] 문맥 관련성
+다음 조건이 모두 True면 1점, 하나라도 False이면 0점입니다.
+- question이 context에서 다루는 개념, 내용과 관련이 있는가?
+- context에서 언급되지 않은 정보나 주제가 포함되어 있지 않는가?
+
+[평가지표 2] 질문 중요도
+다음 기준 중 2개 이상이 True면 1점, 아니라면 0점입니다.
+- 강의의 핵심 개념과 관련이 있는가?
+- 단순한 내용의 디테일이 아니라 개념/이해 수준을 점검하는 질문인가?
+- 학습자의 이해 부족 혹은 잘못 알고있는 부분을 드러내는 데 도움이 되는 질문인가?
+
+[평가지표 3] 난이도 일관성
+먼저, question을 보고 실제 난이도를 'low', 'mid', 'high' 중 하나로 판단하고,
+판단 결과가 model_difficulty와 같으면 1점, 아니라면 0점입니다.
+
+[평가지표 4] 문장 완성도
+다음 기준을 모두 만족하면 1점, 아니면 0점입니다.
+- 문장이 크게 어색하지 않고, 한국어 문법상 이해 가능한가?
+- 질문의 의도가 한번에 이해되며, 무엇을 묻는지 분명한가?
+
+
+[출력 형식]
+아래의 JSON 형식으로 출력하세요. 추가 텍스트나 설명은 절대 쓰지 마세요.
+{JSON_STRUCT}
+
+
+[평가 대상]
+context : {{CONTEXT}}
+question : {{QUESTION}}
+model_difficulty : {{DIFFICULTY}}
+"""
+
+eval_file_path = "questions_with_difficulty_3.csv"
+eval_df = pd.read_csv(eval_file_path)
+eval_df.columns = ['difficulty', 'question']
+
+
+def get_prompt(context, q, diff):
+    return (
+        EVAL_PROMPT
+        .replace("{{CONTEXT}}", context)
+        .replace("{{QUESTION}}", q)
+        .replace("{{DIFFICULTY}}", diff)
+    )
+
+eval_results = []
+
+for _, row in eval_df.iterrows():
+    q = row['question']
+    diff = row['difficulty']
+    
+    prompt = get_prompt(CONTEXT, q, diff)
+
+    e_reponse = client.models.generate_content(
+        model=model_name,
+        contents=prompt,
+    )
+
+    raw = e_reponse.text
+    eval_json_str = raw[raw.find('{'):raw.rfind('}')+1]
+
+
+    try:
+        result = json.loads(eval_json_str)
+    except json.JSONDecodeError:
+        result = {
+            'parse_error': True,
+            'raw': eval_json_str
+        }
+    
+    eval_results.append(result)
+
+
+evaluation_result = []
+
+for e in eval_results:
+    if "parse_error" in e:
+        evaluation_result.append({
+            "context_score": None,
+            "importance_score": None,
+            "difficulty_score": None,
+            "clarity_score": None,
+            "parse_error": True,
+            "raw": e['raw']
+        })
+        continue
+
+    cr = e.get("context_relevance", {})
+    qi = e.get("question_importance", {})
+    dc = e.get("difficulty_consistency", {})
+    qc = e.get("question_clarity", {})
+
+    evaluation_result.append({
+        "context_score": cr.get("score"),
+        "importance_score": qi.get("score"),
+        "difficulty_score": dc.get("score"),
+        "model_difficulty": dc.get("model_difficulty"),
+        "difficulty_match": dc.get("match"),
+        "clarity_score": qc.get("score"),
+        "parse_error": False,
+    })
+
+eval_result_df = pd.DataFrame(evaluation_result)
+
+final_df = pd.concat(
+[eval_df.reset_index(drop=True), eval_result_df.reset_index(drop=True)],
+axis=1
+)
+
+final_df.to_csv('questions_with_eval.csv', index=False, encoding='utf-8')
+print('저장완료')
